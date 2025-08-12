@@ -11,31 +11,32 @@ import time
 
 app = Flask(__name__)
 
-'''
-class Camera():
-    def __init__(self):
-        self.imgList = [open(f"{i}.jpg", "rb").read() for i in range(1,3)]
-        self.imgCounter = 0
-    def GetFrame(self):
-      img = self.imgList[self.imgCounter]
-      self.imgCounter += 1
-      if self.imgCounter >= len(self.imgList):
-          self.imgCounter = 0
-      return img
-'''
-class Camera():
-    def __init__(self): 
-        from picamera2 import Picamera2
-        self.cam = Picamera2()
-        config = self.cam.create_preview_configuration({"format": "JPEG"})#M
-        self.cam.configure(config)
+if True:
+    class Camera():
+        def __init__(self):
+            self.imgList = [open(f"{i}.jpg", "rb").read() for i in range(1,3)]
+            self.imgCounter = 0
+        def GetFrame(self):
+            print("Getting frame")
+            img = self.imgList[self.imgCounter]
+            self.imgCounter += 1
+            if self.imgCounter >= len(self.imgList):
+                self.imgCounter = 0
+            return img
+else:
+    class Camera():
+        def __init__(self): 
+            from picamera2 import Picamera2
+            self.cam = Picamera2()
+            config = self.cam.create_preview_configuration({"format": "JPEG"})#M
+            self.cam.configure(config)
 
-    def GetFrame(self):
-        # Create an in-memory stream
-        #my_stream = io.BytesIO()
-        buffer = self.cam.capture_buffer()
-        print("returning buffer,", type(buffer))
-        return buffer#my_stream.getvalue()
+        def GetFrame(self):
+            # Create an in-memory stream
+            #my_stream = io.BytesIO()
+            buffer = self.cam.capture_buffer()
+            print("returning buffer,", type(buffer))
+            return buffer#my_stream.getvalue()
 
 
 @app.route("/")
@@ -47,12 +48,15 @@ def gen(camera):
         print("\n\n\n here \n\n\n")
         frame = camera.GetFrame()
         print(type(frame))
+        input()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-        
+
+cam = Camera()    
+
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(Camera()),
+    return Response(gen(cam),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
