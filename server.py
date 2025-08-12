@@ -32,8 +32,8 @@ class Camera():
 
     def GetFrame(self):
         # Create an in-memory stream
-        my_stream = io.BytesIO()
-        buffer = self.cam.capture_buffer(my_stream, 'jpeg')
+        #my_stream = io.BytesIO()
+        buffer = self.cam.capture_buffer()
         return buffer#my_stream.getvalue()
 
 
