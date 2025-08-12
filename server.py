@@ -39,7 +39,7 @@ try:
             def GetFrame(self):
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
-                buffer = self.cam.capture_buffer()
+                buffer = self.cam.capture_buffer().tobytes()
                 print("returning buffer,", type(buffer))
                 return buffer#my_stream.getvalue()
 
@@ -55,7 +55,7 @@ try:
             print(type(frame))
             input()
             yield (b'--frame\r\n'
-                b'Content-Type: image/mjpeg\r\n\r\n' + frame + b'\r\n')
+                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
  
 
