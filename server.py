@@ -54,11 +54,11 @@ try:
             yield (b'--frame\r\n'
                 b'Content-Type: image/mjpeg\r\n\r\n' + frame + b'\r\n')
 
-    cam = Camera()    
+ 
 
     @app.route('/video_feed')
     def video_feed():
-        return Response(gen(cam),
+        return Response(gen(Camera()),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
 
     if __name__ == '__main__':
