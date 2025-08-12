@@ -30,8 +30,11 @@ try:
             def __init__(self): 
                 from picamera2 import Picamera2
                 self.cam = Picamera2()
-                config = self.cam.create_preview_configuration({"format": "MJPEG"})#M
-                self.cam.configure(config)
+                #config = self.cam.create_preview_configuration({"format": "MJPEG"})#M
+                #self.cam.configure(config)
+                self.cam.configure(self.cam.create_still_configuration())
+                self.cam.start()
+
 
             def GetFrame(self):
                 # Create an in-memory stream
