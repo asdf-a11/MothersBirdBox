@@ -25,7 +25,7 @@ class Camera():
 '''
 class Camera():
     def __init__(self): 
-        import picamera
+        import picamera2 as picamera
         self.cam = picamera.PiCamera()
     def GetFrame(self):
         #from picamzero import Camera
