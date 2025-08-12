@@ -25,8 +25,8 @@ class Camera():
 '''
 class Camera():
     def __init__(self): 
-        from picamera2 import PiCamera2
-        self.cam = PiCamera2()
+        from picamera2 import Picamera2
+        self.cam = Picamera2()
     def GetFrame(self):
         # Create an in-memory stream
         my_stream = io.BytesIO()
