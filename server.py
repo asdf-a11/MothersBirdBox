@@ -27,7 +27,7 @@ class Camera():
     def __init__(self): 
         from picamera2 import Picamera2
         self.cam = Picamera2()
-        config = self.cam.create_preview_configuration({"format": "JPEG"})#M
+        config = self.cam.create_preview_configuration({"format": "PNG"})#M
         self.cam.configure(config)
 
     def GetFrame(self):
