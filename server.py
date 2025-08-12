@@ -1,8 +1,17 @@
 # save this as app.py
-from flask import Flask, render_template, Response
+try:
+    from flask import Flask, render_template, Response
+except Exception:
+    import os
+    os.system("pip install flask")
+    from flask import Flask, render_template, Response
+import io
+import time
+
 
 app = Flask(__name__)
 
+'''
 class Camera():
     def __init__(self):
         self.imgList = [open(f"{i}.jpg", "rb").read() for i in range(1,3)]
@@ -13,6 +22,27 @@ class Camera():
       if self.imgCounter >= len(self.imgList):
           self.imgCounter = 0
       return img
+'''
+class Camera():
+    def __init__(self): 
+        import picamera
+        self.cam = picamera.PiCamera()
+    def GetFrame(self):
+        #from picamzero import Camera
+        #cam = Camera()
+        #import io        # Create an in-memory stream
+        stream = io.BytesIO()
+        self.cam.resolution = (1024, 768)
+        self.cam.start_preview()        
+        # Optional: warm-up time        
+        #time.sleep(0.01)        
+        # Capture to the stream
+        self.cam.capture(stream, format='jpeg')
+        # Get the byte buffer
+        image_bytes = stream.getvalue()
+        # Now `image_bytes` contains the JPEG image data
+        return image_bytes
+
 
 @app.route("/")
 def hello():
