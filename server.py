@@ -11,7 +11,7 @@ import time
 
 app = Flask(__name__)
 
-if True:
+if False:
     class Camera():
         def __init__(self):
             self.imgList = [open(f"{i}.jpg", "rb").read() for i in range(1,3)]
