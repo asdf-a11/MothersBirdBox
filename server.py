@@ -39,7 +39,7 @@ try:
             def GetFrame(self):
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
-                buffer = self.cam.capture_buffer().tobytes()
+                buffer = self.cam.capture_buffer("main").tobytes()
                 with open("test.jpeg", "wb") as f:
                     f.write(buffer)
                 print("returning buffer,", type(buffer))
