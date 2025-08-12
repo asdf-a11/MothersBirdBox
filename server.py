@@ -27,7 +27,7 @@ class Camera():
     def __init__(self): 
         from picamera2 import Picamera2
         self.cam = Picamera2()
-        config = self.cam.create_preview_configuration({"format": "PNG"})#M
+        config = self.cam.create_preview_configuration({"format": "JPEG"})#M
         self.cam.configure(config)
 
     def GetFrame(self):
@@ -44,7 +44,9 @@ def hello():
 
 def gen(camera):
     while True:
+        print("\n\n\n here \n\n\n")
         frame = camera.GetFrame()
+        print(type(frame))
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         
