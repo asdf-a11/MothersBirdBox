@@ -27,11 +27,14 @@ class Camera():
     def __init__(self): 
         from picamera2 import Picamera2
         self.cam = Picamera2()
+        config = self.cam.create_preview_configuration({"format": "MJPEG"})
+        self.cam.configure(config)
+
     def GetFrame(self):
         # Create an in-memory stream
         my_stream = io.BytesIO()
-        self.cam.capture(my_stream, 'jpeg')
-        return my_stream.getvalue()
+        buffer = self.cam.capture_buffer(my_stream, 'jpeg')
+        return buffer#my_stream.getvalue()
 
 
 @app.route("/")
