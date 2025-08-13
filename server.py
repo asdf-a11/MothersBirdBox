@@ -50,11 +50,11 @@ try:
                 print("Saved image")
                 jpeg_bytes = jpeg_bytes_io.getvalue()
 
-                with open("test.jpeg", "wb") as f:
-                    print("Writing bytes")
-                    f.write(jpeg_bytes)
+                #with open("test.jpeg", "wb") as f:
+                #    print("Writing bytes")
+                #    f.write(jpeg_bytes)
                 print("returning buffer,", type(buffer))
-                return jpeg_bytes#my_stream.getvalue()
+                return buffer.tobytes()#my_stream.getvalue()
 
 
     @app.route("/")
