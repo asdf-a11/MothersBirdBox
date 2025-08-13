@@ -38,20 +38,31 @@ try:
                 #self.cam.start()
                 self.cam.stop()
                 self.cam.configure(
-                    self.cam.create_still_configuration(main={"format": "MJPEG"})
+                    self.cam.create_still_configuration()
                 )
                 self.cam.start()
 
             def GetFrame(self):
+                # Capture as RGB array
+                array = self.cam.capture_array()
+
+                # Convert to JPEG bytes
+                image = Image.fromarray(array)
+                jpeg_io = io.BytesIO()
+                image.save(jpeg_io, format="JPEG")
+                #self.cam.stop()
+
+                return jpeg_io.getvalue()
+
                 #self.cam.configure(
                 #    self.cam.create_still_configuration(main={"format": "MJPEG"})
                 #)
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
-                print(self.cam.stream_configuration("main"))
+                #print(self.cam.stream_configuration("main"))
 
                 #print("About to take image")
-                buffer = self.cam.capture_buffer("main")
+                #buffer = self.cam.capture_buffer("main")
                 #print("Takien image, ", buffer.shape, buffer[:5])
                 #input()
 
