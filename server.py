@@ -60,7 +60,7 @@ try:
                 #    print("Writing bytes")
                 #    f.write(jpeg_bytes)
                 print("returning buffer,", type(buffer))
-                return buffer.tobytes()#my_stream.getvalue()
+                return buffer#.tobytes()#my_stream.getvalue()
 
 
     @app.route("/")
