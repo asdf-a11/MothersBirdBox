@@ -38,7 +38,7 @@ try:
             def GetFrame(self):
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
-                buffer = self.cam.capture_buffer("main").tobytes()
+                buffer = self.cam.capture_buffer("main")
 
                 image = Image.fromarray(buffer)
 
