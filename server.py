@@ -40,7 +40,7 @@ try:
                 #my_stream = io.BytesIO()
                 print("About to take image")
                 buffer = self.cam.capture_buffer("main")
-                print("Takien image, ")
+                print("Takien image, ", buffer.shape)
 
                 image = Image.fromarray(buffer)
                 print("got image")
