@@ -46,15 +46,15 @@ try:
                 print("About to take image")
                 buffer = self.cam.capture_buffer("main")
                 print("Takien image, ", buffer.shape, buffer[:5])
-                input()
+                #input()
 
-                image = Image.fromarray(buffer.reshape(4608,2592,3))
-                print("got image")
+                #image = Image.fromarray(buffer.reshape(4608,2592,3))
+                #print("got image")
                 # Encode to JPEG in memory
-                jpeg_bytes_io = io.BytesIO()
-                image.save(jpeg_bytes_io, format='JPEG')
-                print("Saved image")
-                jpeg_bytes = jpeg_bytes_io.getvalue()
+                #jpeg_bytes_io = io.BytesIO()
+                #image.save(jpeg_bytes_io, format='JPEG')
+                #print("Saved image")
+                #jpeg_bytes = jpeg_bytes_io.getvalue()
 
                 #with open("test.jpeg", "wb") as f:
                 #    print("Writing bytes")
