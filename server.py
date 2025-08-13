@@ -38,10 +38,9 @@ try:
                 #self.cam.start()
                 self.cam.stop()
                 self.cam.configure(
-                    self.cam.create_still_configuration(main={"size": (1920, 1080)})
+                    self.cam.create_still_configuration(main={"size": (1280,720)})
                 )
                 self.cam.start()
-
             def GetFrame(self):
                 # Capture as RGB array
                 array = self.cam.capture_array()
@@ -99,9 +98,9 @@ try:
 
     def gen(camera):
         while True:
-            print("\n\n\n here \n\n\n")
+            #print("\n\n\n here \n\n\n")
             frame = camera.GetFrame()
-            print(type(frame))
+            #print(type(frame))
             #input()
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
