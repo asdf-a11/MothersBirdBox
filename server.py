@@ -10,7 +10,7 @@ try:
     import io
     import time
     from PIL import Image
-    import cv2
+    #import cv2
 
 
     app = Flask(__name__)
@@ -42,9 +42,12 @@ try:
                 self.cam.start()
 
             def GetFrame(self):
+                self.cam.configure(
+                    self.cam.create_still_configuration(main={"format": "MJPEG"})
+                )
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
-                #print(self.cam.stream_configuration("main"))
+                print(self.cam.stream_configuration("main"))
 
                 #print("About to take image")
                 buffer = self.cam.capture_buffer("main")
@@ -54,13 +57,13 @@ try:
                 #array = self.cam.capture_array()
 
                 # Convert YUV420 to RGB using OpenCV
-                rgb = cv2.cvtColor(buffer, cv2.COLOR_YUV2RGB_I420)
+                #rgb = cv2.cvtColor(buffer, cv2.COLOR_YUV2RGB_I420)
 
                 # Encode to JPEG
-                image = Image.fromarray(rgb)
-                jpeg_io = io.BytesIO()
-                image.save(jpeg_io, format="JPEG")
-                jpeg_bytes = jpeg_io.getvalue()
+                #image = Image.fromarray(rgb)
+                #jpeg_io = io.BytesIO()
+                #image.save(jpeg_io, format="JPEG")
+                #jpeg_bytes = jpeg_io.getvalue()
 
 
                 #image = Image.fromarray(buffer.reshape(4608,2592,3))
