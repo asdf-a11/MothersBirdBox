@@ -43,9 +43,9 @@ try:
                 self.cam.start()
 
             def GetFrame(self):
-                self.cam.configure(
-                    self.cam.create_still_configuration(main={"format": "MJPEG"})
-                )
+                #self.cam.configure(
+                #    self.cam.create_still_configuration(main={"format": "MJPEG"})
+                #)
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
                 print(self.cam.stream_configuration("main"))
