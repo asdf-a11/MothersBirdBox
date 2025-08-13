@@ -38,7 +38,7 @@ try:
                 #self.cam.start()
                 self.cam.stop()
                 self.cam.configure(
-                    self.cam.create_still_configuration()
+                    self.cam.create_still_configuration(main={"size": (1920, 1080)})
                 )
                 self.cam.start()
 
