@@ -38,7 +38,9 @@ try:
             def GetFrame(self):
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
+                print("About to take image")
                 buffer = self.cam.capture_buffer("main")
+                print("Takien image, ")
 
                 image = Image.fromarray(buffer)
 
@@ -47,8 +49,9 @@ try:
                 image.save(jpeg_bytes_io, format='JPEG')
                 jpeg_bytes = jpeg_bytes_io.getvalue()
 
-                #with open("test.jpeg", "wb") as f:
-                #    f.write(buffer)
+                with open("test.jpeg", "wb") as f:
+                    print("Writing bytes")
+                    f.write(jpeg_bytes)
                 print("returning buffer,", type(buffer))
                 return jpeg_bytes#my_stream.getvalue()
 
@@ -62,7 +65,7 @@ try:
             print("\n\n\n here \n\n\n")
             frame = camera.GetFrame()
             print(type(frame))
-            input()
+            #input()
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
