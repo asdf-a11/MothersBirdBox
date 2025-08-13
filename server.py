@@ -46,6 +46,7 @@ try:
                 print("About to take image")
                 buffer = self.cam.capture_buffer("main")
                 print("Takien image, ", buffer.shape, buffer[:5])
+                input()
 
                 image = Image.fromarray(buffer.reshape(4608,2592,3))
                 print("got image")
