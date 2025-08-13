@@ -36,13 +36,15 @@ try:
                 #self.cam.configure(self.cam.create_still_configuration())
                 #self.cam.start()
                 self.cam.configure(
-                    self.cam.create_video_configuration(main={"format": "MJPEG"})#M
+                    self.cam.create_still_configuration(main={"format": "MJPEG"})
                 )
                 self.cam.start()
 
             def GetFrame(self):
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
+                print(self.cam.stream_configuration("main"))
+
                 print("About to take image")
                 buffer = self.cam.capture_buffer("main")
                 print("Takien image, ", buffer.shape, buffer[:5])
@@ -60,7 +62,7 @@ try:
                 #    print("Writing bytes")
                 #    f.write(jpeg_bytes)
                 print("returning buffer,", type(buffer))
-                return buffer#.tobytes()#my_stream.getvalue()
+                return buffer.tobytes()#.tobytes()#my_stream.getvalue()
 
 
     @app.route("/")
