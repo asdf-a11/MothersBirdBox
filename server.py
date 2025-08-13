@@ -42,8 +42,7 @@ try:
                 buffer = self.cam.capture_buffer("main")
                 print("Takien image, ", buffer.shape)
 
-                image = Image.fromarray(buffer)
-                image = image.resize((4608,2592))
+                image = Image.fromarray(buffer.reshape(4608,2592,3))
                 print("got image")
                 # Encode to JPEG in memory
                 jpeg_bytes_io = io.BytesIO()
