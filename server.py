@@ -36,7 +36,7 @@ try:
                 #self.cam.configure(self.cam.create_still_configuration())
                 #self.cam.start()
                 self.cam.configure(
-                    self.cam.create_video_configuration(main={"format": "JPEG"})#M
+                    self.cam.create_video_configuration(main={"format": "MJPEG"})#M
                 )
                 self.cam.start()
 
