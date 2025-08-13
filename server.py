@@ -9,6 +9,7 @@ try:
         from flask import Flask, render_template, Response
     import io
     import time
+    from PIL import Image
 
 
     app = Flask(__name__)
@@ -34,16 +35,22 @@ try:
                 #self.cam.configure(config)
                 self.cam.configure(self.cam.create_still_configuration())
                 self.cam.start()
-
-
             def GetFrame(self):
                 # Create an in-memory stream
                 #my_stream = io.BytesIO()
                 buffer = self.cam.capture_buffer("main").tobytes()
-                with open("test.jpeg", "wb") as f:
-                    f.write(buffer)
+
+                image = Image.fromarray(buffer)
+
+                # Encode to JPEG in memory
+                jpeg_bytes_io = io.BytesIO()
+                image.save(jpeg_bytes_io, format='JPEG')
+                jpeg_bytes = jpeg_bytes_io.getvalue()
+
+                #with open("test.jpeg", "wb") as f:
+                #    f.write(buffer)
                 print("returning buffer,", type(buffer))
-                return buffer#my_stream.getvalue()
+                return jpeg_bytes#my_stream.getvalue()
 
 
     @app.route("/")
