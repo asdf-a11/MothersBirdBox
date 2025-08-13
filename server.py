@@ -43,10 +43,11 @@ try:
                 print("Takien image, ")
 
                 image = Image.fromarray(buffer)
-
+                print("got image")
                 # Encode to JPEG in memory
                 jpeg_bytes_io = io.BytesIO()
                 image.save(jpeg_bytes_io, format='JPEG')
+                print("Saved image")
                 jpeg_bytes = jpeg_bytes_io.getvalue()
 
                 with open("test.jpeg", "wb") as f:
