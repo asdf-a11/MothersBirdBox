@@ -40,6 +40,10 @@ try:
                 self.cam.configure(
                     self.cam.create_still_configuration(main={"size": (1280,720)})
                 )
+                self.cam.set_controls({
+                    "AfMode": 2,
+                    "AfTrigger": 0  # Optional: triggers the autofocus cycle
+                })
                 self.cam.start()
             def GetFrame(self):
                 # Capture as RGB array
@@ -52,44 +56,6 @@ try:
                 #self.cam.stop()
 
                 return jpeg_io.getvalue()
-
-                #self.cam.configure(
-                #    self.cam.create_still_configuration(main={"format": "MJPEG"})
-                #)
-                # Create an in-memory stream
-                #my_stream = io.BytesIO()
-                #print(self.cam.stream_configuration("main"))
-
-                #print("About to take image")
-                #buffer = self.cam.capture_buffer("main")
-                #print("Takien image, ", buffer.shape, buffer[:5])
-                #input()
-
-                #array = self.cam.capture_array()
-
-                # Convert YUV420 to RGB using OpenCV
-                #rgb = cv2.cvtColor(buffer, cv2.COLOR_YUV2RGB_I420)
-
-                # Encode to JPEG
-                #image = Image.fromarray(rgb)
-                #jpeg_io = io.BytesIO()
-                #image.save(jpeg_io, format="JPEG")
-                #jpeg_bytes = jpeg_io.getvalue()
-
-
-                #image = Image.fromarray(buffer.reshape(4608,2592,3))
-                #print("got image")
-                # Encode to JPEG in memory
-                #jpeg_bytes_io = io.BytesIO()
-                #image.save(jpeg_bytes_io, format='JPEG')
-                #print("Saved image")
-                #jpeg_bytes = jpeg_bytes_io.getvalue()
-
-                #with open("test.jpeg", "wb") as f:
-                #    print("Writing bytes")
-                #    f.write(jpeg_bytes)
-                #print("returning buffer,", type(buffer))
-                return jpeg_bytes#.tobytes()#my_stream.getvalue()
 
 
     @app.route("/")
