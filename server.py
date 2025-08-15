@@ -55,6 +55,7 @@ try:
                     "AfTrigger": 0  # Optional: triggers the autofocus cycle
                 })
                 self.cam.start()
+                SetLED()
             def GetFrame(self):
                 # Capture as RGB array
                 array = self.cam.capture_array()
@@ -89,7 +90,6 @@ try:
                         mimetype='multipart/x-mixed-replace; boundary=frame')
 
     if __name__ == '__main__':
-        SetLED()
         app.run(host='0.0.0.0', debug=True)
     '''
     from flask import Flask, render_template, Response
