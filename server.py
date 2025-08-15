@@ -12,6 +12,16 @@ try:
     from PIL import Image
     #import cv2
 
+    def SetLED():
+        import RPi.GPIO as GPIO
+        import time
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(6,GPIO.OUT)
+        # set GPIO14 pin to HIGH
+        GPIO.output(6,GPIO.HIGH)
+
+    SetLED()
 
     app = Flask(__name__)
 
