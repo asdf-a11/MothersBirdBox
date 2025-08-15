@@ -29,6 +29,7 @@ try:
     '''
     def ModulateLED(pin):
         SCALE = 1#10**-1
+        print("Modulating pin", pin)
         GPIO.output(pin,GPIO.HIGH)
         time.sleep((brightness)*SCALE)
         GPIO.output(pin,GPIO.LOW)
@@ -39,10 +40,12 @@ try:
         threads.append(Thread(target=ModulateLED, args=(p,)))
 
     def InitPins():
+        print("Init Pins!")
         for p in ledPinList:
             GPIO.setup(p,GPIO.OUT)
 
     def StartLeds():
+        print("Starting threads!")
         for t in threads:
             t.start()
 
