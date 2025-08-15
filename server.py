@@ -96,6 +96,7 @@ try:
 
     @app.route('/brightness', methods=['POST'])
     def receive_brightness():
+        global brightness
         data = request.get_json()  # Parses JSON from request body
         brightness = data.get('brightness')
         print(f"Received brightness: {brightness}")
