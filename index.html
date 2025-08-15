@@ -18,6 +18,7 @@
       if(brightness > 1.0){
         brightness = 1;
       }
+      UpdateBrightnessValue();
     }
     function AttachBrightnessMethods(){
       document.getElementById("brightness_up").onclick = function(){ChangeBrightness(BRIGHTNESS_STEP);}
