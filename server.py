@@ -54,6 +54,7 @@ try:
                 })
                 self.cam.start()
                 SetLED()
+                self.oldBrightness = brightness
             def GetFrame(self):
                 # Capture as RGB array
                 array = self.cam.capture_array()
@@ -63,6 +64,12 @@ try:
                 jpeg_io = io.BytesIO()
                 image.save(jpeg_io, format="JPEG")
                 #self.cam.stop()
+
+                print(self.oldBrightness, brightness)
+                if self.oldBrightness != brightness:
+                    self.oldBrightness = brightness
+                    print("update brightness")
+                    #UpdateBrightness()
 
                 return jpeg_io.getvalue()
 
@@ -96,7 +103,7 @@ try:
 
 
     if __name__ == '__main__':
-        app.run(host='0.0.0.0', debug=True)
+        app.run(host='0.0.0.0')
     '''
     from flask import Flask, render_template, Response
 
