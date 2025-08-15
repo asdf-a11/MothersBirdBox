@@ -28,7 +28,7 @@ try:
             pass
     '''
     def ModulateLED(pin):
-        SCALE = 1#10**-1
+        SCALE = 10**-3
         while 1:
             #print("Modulating pin", pin)
             GPIO.output(pin,GPIO.HIGH)
