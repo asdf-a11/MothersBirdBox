@@ -29,11 +29,12 @@ try:
     '''
     def ModulateLED(pin):
         SCALE = 1#10**-1
-        print("Modulating pin", pin)
-        GPIO.output(pin,GPIO.HIGH)
-        time.sleep((brightness)*SCALE)
-        GPIO.output(pin,GPIO.LOW)
-        time.sleep((1-brightness)*SCALE)
+        while 1:
+            #print("Modulating pin", pin)
+            GPIO.output(pin,GPIO.HIGH)
+            time.sleep((brightness)*SCALE)
+            GPIO.output(pin,GPIO.LOW)
+            time.sleep((1-brightness)*SCALE)
     
     threads = []
     for p in ledPinList:
