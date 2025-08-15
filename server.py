@@ -1,16 +1,13 @@
 import traceback
 try:
     # save this as app.py
-    try:
-        from flask import Flask, render_template, Response
-    except Exception:
-        import os
-        os.system("pip install flask")
-        from flask import Flask, render_template, Response
+    
+    from flask import Flask, render_template, Response, request, jsonify
     import io
     import time
     from PIL import Image
     #import cv2
+    brightness = 1.0
 
     def SetLED():
         import RPi.GPIO as GPIO
@@ -20,6 +17,7 @@ try:
         GPIO.setup(6,GPIO.OUT)
         # set GPIO14 pin to HIGH
         GPIO.output(6,GPIO.HIGH)
+        print(brightness)
 
     
 
@@ -88,6 +86,14 @@ try:
     def video_feed():
         return Response(gen(Camera()),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
+
+    @app.route('/brightness', methods=['POST'])
+    def receive_brightness():
+        data = request.get_json()  # Parses JSON from request body
+        brightness = data.get('brightness')
+        print(f"Received brightness: {brightness}")
+        return jsonify({"status": "success", "received": brightness})
+
 
     if __name__ == '__main__':
         app.run(host='0.0.0.0', debug=True)

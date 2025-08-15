@@ -19,13 +19,21 @@
         brightness = 1;
       }
       UpdateBrightnessValue();
+      //send new brightness to the server
+      fetch(`${window.location.origin}/brightness`, {
+        method: "POST",
+        body: JSON.stringify({ brightness }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
     }
     function AttachBrightnessMethods(){
       document.getElementById("brightness_up").onclick = function(){ChangeBrightness(BRIGHTNESS_STEP);}
       document.getElementById("brightness_down").onclick = function(){ChangeBrightness(-BRIGHTNESS_STEP);}
     }
     function UpdateBrightnessValue(){
-      document.getElementById("brightness").textContent = brightness * 100;
+      document.getElementById("brightness").textContent = Math.round(brightness * 100);
     }
     window.onload = function(){
       AttachBrightnessMethods();
