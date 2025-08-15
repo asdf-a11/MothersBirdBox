@@ -17,9 +17,9 @@ try:
         import time
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
-        GPIO.setup(6,GPIO.OUT)
+        GPIO.setup(5,GPIO.OUT)
         # set GPIO14 pin to HIGH
-        GPIO.output(6,GPIO.HIGH)
+        GPIO.output(5,GPIO.HIGH)
 
     SetLED()
 
