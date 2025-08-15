@@ -21,7 +21,7 @@ try:
         # set GPIO14 pin to HIGH
         GPIO.output(5,GPIO.HIGH)
 
-    SetLED()
+    
 
     app = Flask(__name__)
 
@@ -89,6 +89,7 @@ try:
                         mimetype='multipart/x-mixed-replace; boundary=frame')
 
     if __name__ == '__main__':
+        SetLED()
         app.run(host='0.0.0.0', debug=True)
     '''
     from flask import Flask, render_template, Response
