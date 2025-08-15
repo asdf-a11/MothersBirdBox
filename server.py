@@ -6,18 +6,47 @@ try:
     import io
     import time
     from PIL import Image
+    import RPi.GPIO as GPIO
+    import time
+    from threading import Thread
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
     #import cv2
     brightness = 1.0
+    oldBrightness = brightness
+    ledPinList = [5,6]
 
-    def SetLED():
-        import RPi.GPIO as GPIO
-        import time
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        GPIO.setup(6,GPIO.OUT)
-        # set GPIO14 pin to HIGH
-        GPIO.output(6,GPIO.HIGH)
-        print(brightness)
+    '''
+    class ModulateLED():
+        def __init__(self, pinNumber, brightness):
+            self.pinNumber = pinNumber
+            self.brightness = brightness
+        def Start(self):
+            GPIO.setup(6,GPIO.OUT)
+            GPIO.output(6,GPIO.HIGH)
+        def Update(self, newBrightness):
+            pass
+    '''
+    def ModulateLED(pin):
+        SCALE = 1#10**-1
+        GPIO.output(pin,GPIO.HIGH)
+        time.sleep((brightness)*SCALE)
+        GPIO.output(pin,GPIO.LOW)
+        time.sleep((1-brightness)*SCALE)
+    
+    threads = []
+    for p in ledPinList:
+        threads.append(Thread(target=ModulateLED, args=(p,)))
+
+    def InitPins():
+        for p in ledPinList:
+            GPIO.setup(p,GPIO.OUT)
+
+    def StartLeds():
+        for t in threads:
+            t.start()
+
+
 
     
 
@@ -53,7 +82,6 @@ try:
                     "AfTrigger": 0  # Optional: triggers the autofocus cycle
                 })
                 self.cam.start()
-                SetLED()
                 self.oldBrightness = brightness
             def GetFrame(self):
                 # Capture as RGB array
@@ -65,11 +93,6 @@ try:
                 image.save(jpeg_io, format="JPEG")
                 #self.cam.stop()
 
-                print(self.oldBrightness, brightness)
-                if self.oldBrightness != brightness:
-                    self.oldBrightness = brightness
-                    print("update brightness")
-                    #UpdateBrightness()
 
                 return jpeg_io.getvalue()
 
@@ -104,31 +127,9 @@ try:
 
 
     if __name__ == '__main__':
+        InitPins()
+        StartLeds()
         app.run(host='0.0.0.0', debug=False)
-    '''
-    from flask import Flask, render_template, Response
-
-    app = Flask(__name__)
-
-    @app.route('/')
-    def index():
-        return render_template('index.html')
-
-    def gen(camera):
-        while True:
-            frame = camera.get_frame()
-            yield (b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
-
-    @app.route('/video_feed')
-    def video_feed():
-        return Response(gen(Camera()),
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
-
-    if __name__ == '__main__':
-        app.run(host='0.0.0.0', debug=True)
-    '''
 except:
     print(traceback.format_exc())
     try:
