@@ -33,6 +33,8 @@ try:
         for pin in ledPinList:
             GPIO.output(pin,GPIO.HIGH)
     def CheckClientDisconnect():
+        global clientIsConnected
+        print(time.time() - timeOfLastSend)
         if time.time() - timeOfLastSend > DISCONNECT_THRESH and clientIsConnected:
             print("Client has disconnected stopping cam and turning off leds at ", datetime.datetime.now().time())
             cam.Close()
@@ -80,23 +82,26 @@ try:
 
     @app.route("/")
     def hello():
+        global clientIsConnected
         #Turn back on the IR leds
         TurnOnLeds()
         clientIsConnected = True
         return open("index.html","r",encoding="utf-8").read()
 
-    def gen(camera):
+    def gen():
+        global timeOfLastSend, camera
         while True:
             if camera.isClosed:
                 print("Reopening camera at",datetime.datetime.now().time())
                 camera = Camera()
             frame = camera.GetFrame()
+            timeOfLastSend = time.time()
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
 
     @app.route('/video_feed')
     def video_feed():
-        return Response(gen(cam),
+        return Response(gen(),
                         mimetype='multipart/x-mixed-replace; boundary=frame')
 
     @app.route('/brightness', methods=['POST'])
