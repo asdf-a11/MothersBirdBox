@@ -39,7 +39,9 @@ try:
             TurnOffLeds()
         time.sleep(60)
 
-    turnOffLedsThread = Thread(target=CheckClientDisconnect)    
+    print("Starting detecting disconnected client thread")
+    turnOffLedsThread = Thread(target=CheckClientDisconnect)  
+    turnOffLedsThread.start()  
     
 
     app = Flask(__name__)
