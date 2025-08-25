@@ -2,45 +2,44 @@ import traceback
 try:
     from flask import Flask, render_template, Response, request, jsonify
     import io
-    import time
     from PIL import Image
     import RPi.GPIO as GPIO
     import time
+    import datetime
     from threading import Thread
     print("Importing camera modual")
     from picamera2 import Picamera2
+
+    #GPIO mode init
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
-    #import cv2
-    brightness = 1.0
-    oldBrightness = brightness
+
+    #list of all ir LED pins
     ledPinList = [5,6]
-
-    def ModulateLED(pin):
-        SCALE = 10**-3
-        while 1:
-            #print("Modulating pin", pin)
-            GPIO.output(pin,GPIO.HIGH)
-            time.sleep((brightness)*SCALE)
-            GPIO.output(pin,GPIO.LOW)
-            time.sleep((1-brightness)*SCALE)
-    
-    threads = []
+    #Allow for writing to GPIO pins
     for p in ledPinList:
-        threads.append(Thread(target=ModulateLED, args=(p,)))
+        GPIO.setup(p,GPIO.OUT)
+    #Amount of time since server has sent data to client
+    timeOfLastSend = time.time()
+    #
+    DISCONNECT_THRESH = 1 * 60
+    #
+    clientIsConnected = False
 
-    def InitPins():
-        print("Init Pins!")
-        for p in ledPinList:
-            GPIO.setup(p,GPIO.OUT)
+    def TurnOffLeds():
+        for pin in ledPinList:
+            GPIO.output(pin,GPIO.LOW)
+    def TurnOnLeds():
+        for pin in ledPinList:
+            GPIO.output(pin,GPIO.HIGH)
+    def CheckClientDisconnect():
+        if time.time() - timeOfLastSend > DISCONNECT_THRESH and clientIsConnected:
+            print("Client has disconnected stopping cam and turning off leds at ", datetime.datetime.now().time())
+            cam.Close()
+            TurnOffLeds()
+        time.sleep(60)
 
-    def StartLeds():
-        print("Starting threads!")
-        for t in threads:
-            t.start()
-
-
-
+    turnOffLedsThread = Thread(target=CheckClientDisconnect)    
     
 
     app = Flask(__name__)
@@ -58,7 +57,10 @@ try:
             })
             self.cam.start()
             self.oldBrightness = brightness
+            self.isClosed = False
         def GetFrame(self):
+            if self.isClosed:
+                raise Exception("Trying to use camera even though it has been closed")
             # Capture as RGB array
             array = self.cam.capture_array()
             # Convert to JPEG bytes
@@ -66,16 +68,25 @@ try:
             jpeg_io = io.BytesIO()
             image.save(jpeg_io, format="JPEG")
             return jpeg_io.getvalue()
+        def Close(self):
+            cam.cam.stop()
+            cam.cam.close()
+            self.isClosed = True
     
     print("Creating camera")
     cam = Camera()
 
     @app.route("/")
     def hello():
+        #Turn back on the IR leds
+        TurnOnLeds()
         return open("index.html","r",encoding="utf-8").read()
 
     def gen(camera):
         while True:
+            if camera.isClosed:
+                print("Reopening camera at",datetime.datetime.now().time())
+                camera = Camera()
             frame = camera.GetFrame()
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
@@ -95,8 +106,6 @@ try:
 
 
     if __name__ == '__main__':
-        InitPins()
-        StartLeds()
         app.run(host='0.0.0.0', debug=False)
 except:
     print(traceback.format_exc())
