@@ -34,13 +34,14 @@ try:
             GPIO.output(pin,GPIO.HIGH)
     def CheckClientDisconnect():
         global clientIsConnected
-        print(time.time() - timeOfLastSend)
-        if time.time() - timeOfLastSend > DISCONNECT_THRESH and clientIsConnected:
-            print("Client has disconnected stopping cam and turning off leds at ", datetime.datetime.now().time())
-            cam.Close()
-            TurnOffLeds()
-            clientIsConnected = False
-        time.sleep(60)
+        while True:
+            print(time.time() - timeOfLastSend)
+            if time.time() - timeOfLastSend > DISCONNECT_THRESH and clientIsConnected:
+                print("Client has disconnected stopping cam and turning off leds at ", datetime.datetime.now().time())
+                cam.Close()
+                TurnOffLeds()
+                clientIsConnected = False
+            time.sleep(60)
 
     print("Starting detecting disconnected client thread")
     turnOffLedsThread = Thread(target=CheckClientDisconnect)  
