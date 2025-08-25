@@ -37,6 +37,7 @@ try:
             print("Client has disconnected stopping cam and turning off leds at ", datetime.datetime.now().time())
             cam.Close()
             TurnOffLeds()
+            clientIsConnected = False
         time.sleep(60)
 
     print("Starting detecting disconnected client thread")
@@ -81,6 +82,7 @@ try:
     def hello():
         #Turn back on the IR leds
         TurnOnLeds()
+        clientIsConnected = True
         return open("index.html","r",encoding="utf-8").read()
 
     def gen(camera):
