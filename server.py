@@ -56,7 +56,6 @@ try:
                 "AfTrigger": 0  # Optional: triggers the autofocus cycle
             })
             self.cam.start()
-            self.oldBrightness = brightness
             self.isClosed = False
         def GetFrame(self):
             if self.isClosed:
