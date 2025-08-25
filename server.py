@@ -89,12 +89,12 @@ try:
         return open("index.html","r",encoding="utf-8").read()
 
     def gen():
-        global timeOfLastSend, camera
+        global timeOfLastSend, cam
         while True:
-            if camera.isClosed:
+            if cam.isClosed:
                 print("Reopening camera at",datetime.datetime.now().time())
-                camera = Camera()
-            frame = camera.GetFrame()
+                cam = Camera()
+            frame = cam.GetFrame()
             timeOfLastSend = time.time()
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n') 
