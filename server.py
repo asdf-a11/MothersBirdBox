@@ -87,6 +87,7 @@ try:
         #Turn back on the IR leds
         TurnOnLeds()
         clientIsConnected = True
+        print("Client has connected")
         return open("index.html","r",encoding="utf-8").read()
 
     def gen():
