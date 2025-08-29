@@ -5,5 +5,5 @@
 cd /
 cd /home/raspberrypi/MothersBirdBox
 echo "Starting python server from launcher.sh"
-python3 server.py
+/usr/bin/python3 server.py
 cd /
