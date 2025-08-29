@@ -2,8 +2,6 @@
 # launcher.sh
 # navigate to home directory, then to this directory, then execute python script, then back home
 
-cd /
-cd /home/raspberrypi/MothersBirdBox
+cd ~/MothersBirdBox
 echo "Starting python server from launcher.sh"
-/usr/bin/python3 server.py
-cd /
+python3 server.py
