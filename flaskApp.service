@@ -1,0 +1,14 @@
+# /etc/systemd/system/flask-app.service
+[Unit]
+Description=Flask App
+After=network.target
+
+[Service]
+User=raspberrypi
+WorkingDirectory=/home/raspberrypi/MothersBirdBox
+ExecStart=/usr/bin/python3 /home/raspberrypi/MothersBirdBox/server.py
+Restart=always
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=multi-user.target
