@@ -70,6 +70,7 @@ try:
             array = self.cam.capture_array()
             # Convert to JPEG bytes
             image = Image.fromarray(array)
+            image = image.transpose(Image.Transpose.ROTATE_180)
             jpeg_io = io.BytesIO()
             image.save(jpeg_io, format="JPEG")
             return jpeg_io.getvalue()
