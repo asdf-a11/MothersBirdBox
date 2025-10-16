@@ -5,3 +5,7 @@ The server is hosted useing flask python library.
 
 # Example Image
 Pending until I get back on the home wifi network. There is a bird in there trust me bro.
+
+# Build Images
+
+![alt text](20250820_163142.jpg)
