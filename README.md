@@ -7,5 +7,8 @@ The server is hosted useing flask python library.
 Pending until I get back on the home wifi network. There is a bird in there trust me bro.
 
 # Build Images
-
+![alt text](20250821_191132.jpg)
+<br>
+Using transitor to switch large current for each LED:
+<br>
 ![alt text](20250820_163142.jpg)
